@@ -1,0 +1,28 @@
+.tx-sc_feuserlist .userlistuser {
+    display:inline-block;
+    background-color:#ffffff;
+    float:left;
+    margin:5px;
+    border-radius:10px;
+}
+
+
+.tx-sc_feuserlist .userlistuser .onlinestatus {
+    display: block;
+    float: left;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin:5px;
+}
+
+.tx-sc_feuserlist .userlistuser .onlinestatus.online{
+    background-color:green;
+}
+.tx-sc_feuserlist .userlistuser .onlinestatus.offline{
+    background-color:red;
+}
+
+.tx-sc_feuserlist .userlistuser .username {
+    margin:5px;
+}

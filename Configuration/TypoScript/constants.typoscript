@@ -1,0 +1,15 @@
+
+plugin.tx_sc_feuserlist {
+    view {
+        # cat=plugin.tx_sc_feuserlist/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:sc_feuserlist/Resources/Private/Templates/
+        # cat=plugin.tx_sc_feuserlist/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:sc_feuserlist/Resources/Private/Partials/
+        # cat=plugin.tx_sc_feuserlist/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:sc_feuserlist/Resources/Private/Layouts/
+    }
+    persistence {
+        # cat=plugin.tx_sc_feuserlist//a; type=string; label=Default storage PID
+        storagePid =
+    }
+}

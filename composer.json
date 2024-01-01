@@ -1,0 +1,29 @@
+{
+    "name": "SebastianChristoph/sc_feuserlist",
+    "type": "typo3-cms-extension",
+    "description": "Creates a userlist of frontendusers in the frontend with online status",
+    "authors": [
+        {
+            "name": "Sebastian Christoph",
+            "role": "Developer"
+        }
+    ],
+    "version": "1.0.0",
+    "require": {
+        "typo3/cms-core": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "SebastianChristoph\\ScFeuserlist\\": "Classes"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SebastianChristoph\\ScFeuserlist\\Tests\\": "Tests"
+        }
+    },
+    "replace": {
+        "sc_feuserlist": "self.version",
+        "typo3-ter/sc_feuserlist": "self.version"
+    }
+}

@@ -1,0 +1,59 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>0</langDisable>
+    </meta>
+    <sheets>
+        <options>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>General Settings</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.userStatus>
+                        <TCEforms>
+                            <label>LLL:EXT:sc_feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.userstatus</label>
+                            <config>
+                                <type>check</type>
+                            </config>
+                        </TCEforms>
+                    </settings.userStatus>
+                    <settings.usergroups>
+                        <TCEforms>
+                            <label>LLL:EXT:sc_feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.usergroups</label>
+                            <config>
+                                <type>select</type>
+                                <items type="array">
+                                    <numIndex index="0" type="array">
+                                    </numIndex>
+                                </items>
+                                <foreign_table>fe_groups</foreign_table>
+                                <maxitems>5</maxitems>
+                                <size>5</size>
+                            </config>
+                        </TCEforms>
+                    </settings.usergroups>
+                    <settings.userPIDs>
+                        <TCEforms>
+                            <label>LLL:EXT:sc_feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.userpids</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>5</size>
+                                <maxitems>5</maxitems>
+                                <minitems>1</minitems>
+                                <show_thumbs>1</show_thumbs>
+                                <wizards>
+                                    <suggest>
+                                        <type>suggest</type>
+                                    </suggest>
+                                </wizards>
+                            </config>
+                        </TCEforms>
+                    </settings.userPIDs>
+                </el>
+            </ROOT>
+        </options>
+    </sheets>
+</T3DataStructure>

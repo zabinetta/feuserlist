@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-04-03T23:20:27Z" product-name="sc_feuserlist">
+		<header/>
+		<body>
+			<trans-unit id="tx_sc_feuserlist_feuserlist.name">
+				<source>FE Userlist</source>
+			</trans-unit>
+			<trans-unit id="tx_sc_feuserlist_feuserlist.description">
+				<source>Creates a userlist of frontendusers in the frontend with online status</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

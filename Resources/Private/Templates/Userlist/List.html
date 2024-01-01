@@ -1,0 +1,20 @@
+<f:layout name="Default" />
+
+<f:section name="HeaderAssets">
+    <link rel="stylesheet" type="text/css" href="{f:uri.resource(path: 'Css/styles.css')}"/>
+</f:section>
+
+<f:section name="main">
+    <div class="userlist">
+        <f:for each="{users}" as="user" iteration="i">
+            <div class="userlistuser">
+                <f:if condition="{showUserStatus}">
+                    <f:then>
+                        <span class="onlinestatus {user.onlinestatus}">&nbsp;</span>
+                    </f:then>
+                </f:if>
+                <span class="username">{user.username}</span>
+            </div>
+        </f:for>
+    </div>
+</f:section>
