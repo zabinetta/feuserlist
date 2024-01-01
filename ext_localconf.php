@@ -6,14 +6,14 @@ call_user_func(
     {
 
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'SebastianChristoph.sc_feuserlist',
+            'sc_feuserlist',
             'feuserlist',
             [
-                'Userlist' => 'list'
+                \SebastianChristoph\ScFeuserlist\Controller\UserlistController::class => 'list'
             ],
             // non-cacheable actions
             [
-                'Userlist' => 'list'
+                \SebastianChristoph\ScFeuserlist\Controller\UserlistController::class => 'list'
             ]
         );
 

@@ -1,20 +1,55 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace sc=SebastianChristoph\ScFeuserlist\ViewHelpers}
+
 <f:layout name="Default" />
+
+<f:debug title="users">{users}</f:debug>
+<f:debug title="img.0.url">{img.0.url}</f:debug>
+<f:debug title="users">{debug}</f:debug>
+<f:debug title="query">{query}</f:debug>
 
 <f:section name="HeaderAssets">
     <link rel="stylesheet" type="text/css" href="{f:uri.resource(path: 'Css/styles.css')}"/>
 </f:section>
 
 <f:section name="main">
-    <div class="userlist">
-        <f:for each="{users}" as="user" iteration="i">
-            <div class="userlistuser">
-                <f:if condition="{showUserStatus}">
-                    <f:then>
-                        <span class="onlinestatus {user.onlinestatus}">&nbsp;</span>
-                    </f:then>
-                </f:if>
-                <span class="username">{user.username}</span>
-            </div>
-        </f:for>
+
+    <div class="scBox"><f:comment>
+      <div class="scGroups">
+          <f:for each="{allgroups}" as="group" iteration="i"><span class="scGroup">{group}</span>
+          </f:for>
+      </div></f:comment>
+      <div class="scUserlist">
+          <table id="vcards" class="display" style="width:100%">
+              <thead class="hidden"><tr><td>vcards</td></tr></thead>
+              <tbody><f:for each="{users}" as="user" iteration="i">
+              <tr><td>
+              <div class="vcard">
+                  <div class="vcLeft">
+                      <v:resource.record.fal as="img" field="image" table="fe_users" uid="{user.uid}">
+                          <figure class="box-image">
+                              <img src="{img.0.url}"/>
+                          </figure>
+                      </v:resource.record.fal>
+
+                  </div>
+                  <div class="vcRight">
+                      <div class="vcCompany"><h4><i class="fa fa-home"></i>{user.company}</h4></div>
+                          <div class="vcAddress"><i class="fa fa-address-card"></i>{user.address}</div>
+                          <div class="vcZipcity"><i class="fa"></i>{user.zip} {user.city}</div>
+                          <f:if condition="{user.last_name}"><div class="vcName"><i class="fa fa-user"></i>{user.first_name} {user.last_name}</div></f:if>
+                          <f:if condition="{user.telephone}"><div class="vcTelephone"><i class="fa fa-phone"></i>{user.telephone}</div></f:if>
+                          <f:if condition="{user.email}"><div class="vcEmail"><i class="fa fa-envelope"></i><f:link.email email="{user.email}">{user.email}</f:link.email></div></f:if>
+                          <f:if condition="{user.www}"><div class="vcWww"><i class="fa fa-laptop"></i><f:link.external uri="{user.www}" target="_blank">{user.www}</f:link.external></div></f:if>
+                          <f:if condition="{user.country}"><div class="vcMap"><i class="fa fa-map"></i><f:link.external uri="{user.country}" target="_blank">GoogleMaps</f:link.external></div></f:if>
+                          <div class="vcGroup"><sc:usergroup value="{user.usergroup}" allgroups="{allgroups}" /></div>
+                      </div>
+                  </div>
+              </div>
+              <hr class="clear">
+              </td></tr>
+          </f:for></tbody>
+          </table>
+      </div>
     </div>
 </f:section>

@@ -1,3 +1,59 @@
+/*
+.scBox {
+    height: 100%;
+    clear: both;
+}
+.scGroups {
+    float: right;
+    width: 33%;
+    margin-bottom: 1.5em;
+    margin-left: 1.5em;
+}
+.scUserlist {
+    float: left;
+    width: 66%;
+}
+ */
+thead.hidden {
+    display:none;
+}
+.vcard, table#vcards {
+    max-width: 660px;
+}
+.vcLeft {
+    float: left;
+    width: 200px;
+}
+.vcRight {
+    float: right;
+    width: 380px;
+}
+hr.clear {
+    clear: both;
+    border: 0px;
+}
+.vcName {
+    margin-top: 5px;
+}
+.scGroup {
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    padding: 0 5px;
+    cursor: pointer;
+}
+.scGroup:hover {
+    background-color: #ccc;
+}
+
+i.fa {
+    margin-right: .5em;
+    width: 1.4em;
+    text-align: center;
+}
+i.fa-home {
+    margin-right: 0em;
+}
+
 .tx-sc_feuserlist .userlistuser {
     display:inline-block;
     background-color:#ffffff;
@@ -5,7 +61,6 @@
     margin:5px;
     border-radius:10px;
 }
-
 
 .tx-sc_feuserlist .userlistuser .onlinestatus {
     display: block;

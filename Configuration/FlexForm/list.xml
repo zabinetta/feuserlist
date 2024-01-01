@@ -23,6 +23,7 @@
                             <label>LLL:EXT:sc_feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.usergroups</label>
                             <config>
                                 <type>select</type>
+                                <renderType>selectMultipleSideBySide</renderType>
                                 <items type="array">
                                     <numIndex index="0" type="array">
                                     </numIndex>
