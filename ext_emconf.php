@@ -16,17 +16,17 @@ $EM_CONF[$_EXTKEY] = array (
   'category' => 'plugin',
   'author' => 'Sebastian Christoph',
   'author_email' => 'admin@sebastian-christoph.de',
-  'state' => 'beta',
+  'state' => 'stable',
   'uploadfolder' => false,
   'createDirs' => '',
   'clearCacheOnLoad' => 0,
-  'version' => '2.0.0',
+  'version' => '3.0.0',
   'constraints' => 
   array (
     'depends' => 
     array (
-      'typo3' => '10.4.1-10.4.99',
-        'vhs' => '6.0.0-6.9.99',
+      'typo3' => '10.4.1-11.5.99',
+        'vhs' => '6.0.0-7.9.99',
     ),
     'conflicts' => 
     array (
