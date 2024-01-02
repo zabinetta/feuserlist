@@ -33,7 +33,6 @@ class UserlistController extends ActionController
         $this->frontendUserGroupRepository = $frontendUserGroupRepository;
     }
 
-
     /**
      * list action
      *
