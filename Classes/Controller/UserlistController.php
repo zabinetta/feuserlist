@@ -1,29 +1,38 @@
 <?php
 namespace SebastianChristoph\ScFeuserlist\Controller;
 
+use SebastianChristoph\Domain\Repository\FrontendUserRepository;
+use SebastianChristoph\Domain\Repository\FrontendUserGroupRepository;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Core\Utility\DebugUtility;
+
 /**
  * Class UserlistController
  *
  * * @package SebastianChristoph\ScFeuserlist\Controller
  */
-class UserlistController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class UserlistController extends ActionController
 {
 
     /**
-     * FeRepository
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var FrontendUserRepository
      */
-    protected $feRepository;
+    protected FrontendUserRepository $frontendUserRepository;
 
     /**
-     * FeGroupRepository
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var FrontendUserGroupRepository
      */
-    protected $feGroupRepository;
+    protected FrontendUserGroupRepository $frontendUserGroupRepository;
+
+    public function __construct(
+        FrontendUserRepository $frontendUserRepository,
+        FrontendUserGroupRepository $frontendUserGroupRepository,
+    )
+    {
+        $this->frontendUserRepository = $frontendUserRepository;
+        $this->frontendUserGroupRepository = $frontendUserGroupRepository;
+    }
+
 
     /**
      * list action
@@ -32,34 +41,24 @@ class UserlistController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      */
     public function listAction()
     {
-        $pluginUsergroups = $this->settings['usergroups'];
-        $pluginUserPIDs = $this->settings['userPIDs'];
-        $pluginUserStatus = $this->settings['userStatus'];
-
-        $now = time();
-
-        $groupWhere = ($pluginUsergroups == '')
-            ? ''
-            :  "AND usergroup IN ($pluginUsergroups) \n";
-
-        $queryStatement = trim("
-            SELECT * FROM fe_users \n
+    /*
+        SELECT * FROM fe_users \n
             WHERE pid IN ($pluginUserPIDs)\n
             $groupWhere
             AND disable = 0 \n
             AND deleted = 0 \n
             AND (`starttime` = 0 OR `starttime` <= $now)
             AND (`endtime` = 0 OR `endtime` > $now)");
-
-        $query = $this->feRepository->createQuery();
-        $query->statement($queryStatement);
-
-        $allUsers = $query->execute(TRUE);
+    */
+        $allUsers = $this->frontendUserRepository->findAllByPidAndGroups(
+            $this->settings['userPIDs'],
+            $this->settings['usergroups']
+        );
 
         /*
-        debug([
-            '$pluginUsergroups' => $pluginUsergroups,
-            '$pluginUserPIDs' => $pluginUserPIDs,
+        DebugUtility::debug([
+            '$pluginUsergroups' => $this->settings['usergroups'],
+            '$pluginUserPIDs' => $this->settings['userPIDs'],
             '$pluginUserStatus' => $pluginUserStatus,
             '$queryStatement' => $queryStatement,
             '$allUsers' => $allUsers,
@@ -67,7 +66,6 @@ class UserlistController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         */
 
         $time = \time();
-
         foreach ($allUsers as $user) {
             if ((($time - $user['is_online']) < 600) && ($user['is_online'] > 0)) {
                 $user['onlinestatus'] = 'online';
@@ -76,13 +74,13 @@ class UserlistController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
                 $user['onlinestatus'] = 'offline';
             }
             $allUsersNew[] = $user;
-            $userDbgData[] = $user['uid'].':'.$user['username'].' s:'.$user['starttime'].' e:'.$user['endtime'];
+            //$userDbgData[] = $user['uid'].':'.$user['username'].' s:'.$user['starttime'].' e:'.$user['endtime'];
         }
 
-        $queryStatementGroup = 'SELECT uid,title FROM fe_groups WHERE hidden=0 AND hidden=0 AND deleted=0 ORDER BY title ASC';
-        $query = $this->feRepository->createQuery();
-        $query->statement($queryStatementGroup);
-        $allGroups = $query->execute(TRUE);
+        // 'SELECT uid,title FROM fe_groups WHERE hidden=0 AND deleted=0 ORDER BY title ASC';
+        $allGroups = $this->frontendUserGroupRepository->findAll();
+        DebugUtility::debug($allGroups);
+
         foreach ($allGroups as $g)
         {
             $allUsergroups[$g['uid']] = $g['title'];
@@ -90,10 +88,8 @@ class UserlistController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 
         $this->view->assignMultiple([
             'users' => $allUsersNew,
-            'showUserStatus' => $pluginUserStatus,
+            'showUserStatus' => $this->settings['userStatus'],
             'allgroups' => $allUsergroups,
-            'debug' =>$userDbgData,
-            'query' => $queryStatement
         ]);
     }
 }
