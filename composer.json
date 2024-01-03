@@ -23,7 +23,7 @@
         }
     },
     "replace": {
-        "feuserlist": "self.version",
+        "taketool/feuserlist": "self.version",
         "typo3-ter/feuserlist": "self.version"
     },
     "extra": {
