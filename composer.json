@@ -1,15 +1,15 @@
 {
     "name": "taketool/feuserlist",
     "type": "typo3-cms-extension",
-    "description": "Creates a list of frontendusers and their groups in the frontend. Fork from sc_feuserlist from Sebastian Christoph",
+    "description": "Creates a list of frontendusers in the frontend with online status",
     "authors": [
         {
-            "name": "Martin Keller",
-            "email": "martin.keller@taketool.de",
+            "name": "Sebastian Christoph",
             "role": "Developer"
         },
         {
-            "name": "Sebastian Christoph",
+            "name": "Martin Keller",
+            "email": "martin.keller@taketool.de",
             "role": "Developer"
         }
     ],
@@ -23,6 +23,7 @@
         }
     },
     "replace": {
+        "feuserlist": "self.version",
         "typo3-ter/feuserlist": "self.version"
     },
     "extra": {
