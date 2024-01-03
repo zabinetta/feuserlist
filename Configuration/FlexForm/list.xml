@@ -12,7 +12,7 @@
                 <el>
                     <settings.userStatus>
                         <TCEforms>
-                            <label>LLL:EXT:sc_feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.userstatus</label>
+                            <label>LLL:EXT:feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.userstatus</label>
                             <config>
                                 <type>check</type>
                             </config>
@@ -20,7 +20,7 @@
                     </settings.userStatus>
                     <settings.usergroups>
                         <TCEforms>
-                            <label>LLL:EXT:sc_feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.usergroups</label>
+                            <label>LLL:EXT:feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.usergroups</label>
                             <config>
                                 <type>select</type>
                                 <renderType>selectMultipleSideBySide</renderType>
@@ -36,7 +36,7 @@
                     </settings.usergroups>
                     <settings.userPIDs>
                         <TCEforms>
-                            <label>LLL:EXT:sc_feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.userpids</label>
+                            <label>LLL:EXT:feuserlist/Resources/Private/Language/locallang_be.xlf:plugin.userpids</label>
                             <config>
                                 <type>group</type>
                                 <internal_type>db</internal_type>

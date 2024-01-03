@@ -1,29 +1,34 @@
 {
-    "name": "taketool/sc-feuserlist",
+    "name": "taketool/feuserlist",
     "type": "typo3-cms-extension",
-    "description": "Creates a userlist of frontendusers in the frontend with online status",
+    "description": "Creates a list of frontendusers in the frontend with online status",
     "authors": [
         {
             "name": "Sebastian Christoph",
             "role": "Developer"
+        },
+        {
+            "name": "Martin Keller",
+            "email": "martin.keller@taketool.de",
+            "role": "Developer"
         }
     ],
-    "version": "2.0.0",
+    "version": "11.0.0",
     "require": {
-        "typo3/cms-core": "^10.4"
+        "typo3/cms-core": "~10.4 || ^11.5"
     },
     "autoload": {
         "psr-4": {
-            "SebastianChristoph\\ScFeuserlist\\": "Classes"
+            "Taketool\\Feuserlist\\": "Classes"
         }
     },
     "replace": {
-        "sc_feuserlist": "self.version",
-        "typo3-ter/sc_feuserlist": "self.version"
+        "feuserlist": "self.version",
+        "typo3-ter/feuserlist": "self.version"
     },
     "extra": {
         "typo3/cms": {
-            "extension-key": "sc_feuserlist"
+            "extension-key": "feuserlist"
         }
     }
 }

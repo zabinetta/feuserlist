@@ -1,6 +1,6 @@
 <?php
 
-namespace SebastianChristoph\ScFeuserlist\ViewHelpers;
+namespace Taketool\Feuserlist\ViewHelpers;
 
 /***************************************************************
  *
@@ -38,7 +38,7 @@ class UsergroupViewHelper extends AbstractViewHelper
     {
         parent::initializeArguments();
         $this->registerArgument('allgroups', 'array', 'Array of all user groups', true);
-        $this->registerArgument('value', 'string', 'groupId CSV', true);
+        $this->registerArgument('groups', 'array', 'Array of FrontendUserGroup objects', true);
     }
 
     /**
@@ -50,9 +50,8 @@ class UsergroupViewHelper extends AbstractViewHelper
     public function render()
     {
         $usergroupTitles = '';
-        $arGroups = explode(',', $this->arguments['value']);
-        foreach($arGroups as $gUid) {
-            $usergroupTitles .= $this->arguments['allgroups'][$gUid].' ';
+        foreach($this->arguments['groups'] as $g) {
+            $usergroupTitles .= $this->arguments['allgroups'][$g->getUid()].' ';
         }
         return $usergroupTitles;
     }

@@ -1,56 +1,14 @@
-page.includeCSS.dataTables = https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css
-page.includeCSS.dataTables.external = 1
-page.includeCSS.fontawesome = https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css
-page.includeCSS.fontawesome.external = 1
-page.includeJSFooterlibs.dataTables = //cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js
-page.includeJSFooterlibs.dataTables.external = 1
-
-page.footerData.13 = TEXT
-page.footerData.13.value (
-
-<script type="text/javascript">
-;(function($, root, window, document) {
-    $(function() { // Equal to $(document).ready()
-
-        $('.scGroup').click(function(){
-            $('input').val(this.innerText).focus().keyup();
-        });
-
-        $('#vcards').DataTable({
-        "pageLength": 5,
-        "lengthMenu": [ 5, 10, 25, 50, "All" ],
-        "language": {
-            "lengthMenu": "Zeige _MENU_ Einträge",
-            "search": "Suche",
-            "info": "Zeige _START_ bis _END_ von _TOTAL_",
-            "infoEmpty": "Zeige 0 bis 0 von 0",
-            "infoFiltered": "(gefiltert von _MAX_ Einträgen insgesamt)",
-            "entries": "Einträge",
-            "zeroRecords": "keine Einträge gefunden",
-            "paginate": {
-                "first":      "Anfang",
-                "last":       "Ende",
-                "next":       "Weiter",
-                "previous":   "Zurück"
-            }
-        }
-        });
-    });
-})(jQuery, this, window, document);
-</script>
-
-)
-plugin.tx_sc_feuserlist {
+plugin.tx_feuserlist {
     view {
-        templateRootPaths.0 = EXT:sc_feuserlist/Resources/Private/Templates/
-        templateRootPaths.1 = {$plugin.tx_sc_feuserlist.view.templateRootPath}
-        partialRootPaths.0 = EXT:sc_feuserlist/Resources/Private/Partials/
-        partialRootPaths.1 = {$plugin.tx_sc_feuserlist.view.partialRootPath}
-        layoutRootPaths.0 = EXT:sc_feuserlist/Resources/Private/Layouts/
-        layoutRootPaths.1 = {$plugin.tx_sc_feuserlist.view.layoutRootPath}
+        templateRootPaths.0 = EXT:feuserlist/Resources/Private/Templates/
+        templateRootPaths.1 = {$plugin.tx_feuserlist.view.templateRootPath}
+        partialRootPaths.0 = EXT:feuserlist/Resources/Private/Partials/
+        partialRootPaths.1 = {$plugin.tx_feuserlist.view.partialRootPath}
+        layoutRootPaths.0 = EXT:feuserlist/Resources/Private/Layouts/
+        layoutRootPaths.1 = {$plugin.tx_feuserlist.view.layoutRootPath}
     }
     persistence {
-        storagePid = {$plugin.tx_sc_feuserlist.persistence.storagePid}
+        storagePid = {$plugin.tx_feuserlist.persistence.storagePid}
         #recursive = 1
     }
     features {
@@ -64,10 +22,3 @@ plugin.tx_sc_feuserlist {
         #callDefaultActionIfActionCantBeResolved = 1
     }
 }
-
-# these classes are only used in auto-generated templates
-plugin.tx_sc_feuserlist._CSS_DEFAULT_STYLE (
-    .userlistuser {
-        background-color:#ffffff;
-    }
-)

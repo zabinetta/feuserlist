@@ -1,99 +1,89 @@
 <?php
-namespace SebastianChristoph\ScFeuserlist\Controller;
+namespace Taketool\Feuserlist\Controller;
+
+use Taketool\Feuserlist\Domain\Repository\FrontendUserRepository;
+use Taketool\Feuserlist\Domain\Repository\FrontendUserGroupRepository;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
  * Class UserlistController
  *
- * * @package SebastianChristoph\ScFeuserlist\Controller
+ * * @package Taketool\Feuserlist\Controller
  */
-class UserlistController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class UserlistController extends ActionController
 {
 
     /**
-     * FeRepository
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var FrontendUserRepository
      */
-    protected $feRepository;
+    protected FrontendUserRepository $frontendUserRepository;
 
     /**
-     * FeGroupRepository
-     *
-     * @var \TYPO3\CMS\Extbase\Domain\Repository\FrontendUserGroupRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var FrontendUserGroupRepository
      */
-    protected $feGroupRepository;
+    protected FrontendUserGroupRepository $frontendUserGroupRepository;
+
+    public function __construct(
+        FrontendUserRepository $frontendUserRepository,
+        FrontendUserGroupRepository $frontendUserGroupRepository
+    )
+    {
+        $this->frontendUserRepository = $frontendUserRepository;
+        $this->frontendUserGroupRepository = $frontendUserGroupRepository;
+    }
 
     /**
      * list action
      *
      * @return void
+     * @throws InvalidQueryException
      */
     public function listAction()
     {
-        $pluginUsergroups = $this->settings['usergroups'];
-        $pluginUserPIDs = $this->settings['userPIDs'];
-        $pluginUserStatus = $this->settings['userStatus'];
-
-        $now = time();
-
-        $groupWhere = ($pluginUsergroups == '')
-            ? ''
-            :  "AND usergroup IN ($pluginUsergroups) \n";
-
-        $queryStatement = trim("
-            SELECT * FROM fe_users \n
+    /*
+        SELECT * FROM fe_users \n
             WHERE pid IN ($pluginUserPIDs)\n
             $groupWhere
             AND disable = 0 \n
             AND deleted = 0 \n
             AND (`starttime` = 0 OR `starttime` <= $now)
             AND (`endtime` = 0 OR `endtime` > $now)");
+    */
+        $allUsers = $this->frontendUserRepository->findAllByPidAndGroups(
+            $this->settings['userPIDs'],
+            $this->settings['usergroups']
+        );
 
-        $query = $this->feRepository->createQuery();
-        $query->statement($queryStatement);
+        $time = \time();
+        $userOnlineStatus = [];
+        foreach ($allUsers as $user) {
+            $userOnlineStatus[$user->getUid()] = (($time - $user->getIsOnline()) < 600) && ($user->getIsOnline() > 0);
+        }
 
-        $allUsers = $query->execute(TRUE);
+        // 'SELECT uid,title FROM fe_groups WHERE hidden=0 AND deleted=0 ORDER BY title ASC';
+        $allGroups = $this->frontendUserGroupRepository->findAllSortByTitle($this->settings['userPIDs']);
+
+        $allUsergroups = [];
+        foreach ($allGroups as $g)
+        {
+            $allUsergroups[$g->getUid()] = $g->getTitle();
+        }
 
         /*
-        debug([
-            '$pluginUsergroups' => $pluginUsergroups,
-            '$pluginUserPIDs' => $pluginUserPIDs,
-            '$pluginUserStatus' => $pluginUserStatus,
-            '$queryStatement' => $queryStatement,
+        \nn\t3::debug([
+            '$pluginUsergroups' => explode(',', $this->settings['usergroups']),
+            '$pluginUserPIDs' => explode(',', $this->settings['userPIDs']),
             '$allUsers' => $allUsers,
+            '$allGroups' => $allGroups,
         ], __line__.':listAction()');
         */
 
-        $time = \time();
-
-        foreach ($allUsers as $user) {
-            if ((($time - $user['is_online']) < 600) && ($user['is_online'] > 0)) {
-                $user['onlinestatus'] = 'online';
-            }
-            else {
-                $user['onlinestatus'] = 'offline';
-            }
-            $allUsersNew[] = $user;
-            $userDbgData[] = $user['uid'].':'.$user['username'].' s:'.$user['starttime'].' e:'.$user['endtime'];
-        }
-
-        $queryStatementGroup = 'SELECT uid,title FROM fe_groups WHERE hidden=0 AND hidden=0 AND deleted=0 ORDER BY title ASC';
-        $query = $this->feRepository->createQuery();
-        $query->statement($queryStatementGroup);
-        $allGroups = $query->execute(TRUE);
-        foreach ($allGroups as $g)
-        {
-            $allUsergroups[$g['uid']] = $g['title'];
-        }
-
         $this->view->assignMultiple([
-            'users' => $allUsersNew,
-            'showUserStatus' => $pluginUserStatus,
+            'users' => $allUsers,
+            'showUserStatus' => $this->settings['userStatus'],
+            'userStatus' => $userOnlineStatus,
             'allgroups' => $allUsergroups,
-            'debug' =>$userDbgData,
-            'query' => $queryStatement
         ]);
     }
 }
