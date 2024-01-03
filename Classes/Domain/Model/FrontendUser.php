@@ -13,9 +13,10 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace SebastianChristoph\ScFeuserlist\Domain\Model;
+namespace Taketool\Feuserlist\Domain\Model;
 
-use SebastianChristoph\ScFeuserlist\Domain\Model\FrontendUserGroup;
+use Taketool\Feuserlist\Domain\Model\FrontendUserGroup;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
@@ -24,6 +25,27 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 class FrontendUser extends AbstractEntity
 {
+    /**
+     * @var int
+     */
+    protected int $isOnline = 0;
+
+    /**
+     * @return int
+     */
+    public function getIsOnline(): int
+    {
+        return $this->isOnline;
+    }
+
+    /**
+     * @param int $isOnline
+     */
+    public function setIsOnline(int $isOnline): void
+    {
+        $this->isOnline = $isOnline;
+    }
+
     /**
      * @var string
      */

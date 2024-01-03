@@ -4,6 +4,12 @@ services:
     autoconfigure: true
     public: false
 
-  MyVendor\MyExtension\:
+  Taketool\Feuserlist\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
+
+  Taketool\Feuserlist\Domain\Repository\FrontendUserRepository:
+    public: true
+
+  Taketool\Feuserlist\Domain\Repository\FrontendUserGroupRepository:
+    public: true

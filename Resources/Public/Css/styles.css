@@ -14,6 +14,18 @@
     width: 66%;
 }
  */
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 4px;
+}
+.green {
+    background-color: lightgreen;
+}
 thead.hidden {
     display:none;
 }
@@ -54,7 +66,7 @@ i.fa-home {
     margin-right: 0em;
 }
 
-.tx-sc_feuserlist .userlistuser {
+.tx-feuserlist .userlistuser {
     display:inline-block;
     background-color:#ffffff;
     float:left;
@@ -62,7 +74,7 @@ i.fa-home {
     border-radius:10px;
 }
 
-.tx-sc_feuserlist .userlistuser .onlinestatus {
+.tx-feuserlist .userlistuser .onlinestatus {
     display: block;
     float: left;
     width: 10px;
@@ -71,13 +83,13 @@ i.fa-home {
     margin:5px;
 }
 
-.tx-sc_feuserlist .userlistuser .onlinestatus.online{
+.tx-feuserlist .userlistuser .onlinestatus.online{
     background-color:green;
 }
-.tx-sc_feuserlist .userlistuser .onlinestatus.offline{
+.tx-feuserlist .userlistuser .onlinestatus.offline{
     background-color:red;
 }
 
-.tx-sc_feuserlist .userlistuser .username {
+.tx-feuserlist .userlistuser .username {
     margin:5px;
 }

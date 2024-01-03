@@ -15,11 +15,28 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace SebastianChristoph\ScFeuserlist\Domain\Repository;
+namespace Taketool\Feuserlist\Domain\Repository;
 
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * A Frontend User Group Repository
  */
-class FrontendUserGroupRepository extends Repository {}
+class FrontendUserGroupRepository extends Repository {
+
+    /**
+     * @throws InvalidQueryException
+     */
+    public function findAllSortByTitle(string $userUidList): array
+    {
+        $q = $this->createQuery();
+
+        $q->matching($q->in('pid', explode(',',$userUidList)));
+        $q->getQuerySettings()->setRespectStoragePage(false);
+        $q->setOrderings(['title'=> QueryInterface::ORDER_ASCENDING]);
+
+        return $q->execute()->toArray();
+    }
+}

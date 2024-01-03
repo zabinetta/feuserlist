@@ -15,16 +15,32 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace SebastianChristoph\ScFeuserlist\Domain\Repository;
+namespace Taketool\Feuserlist\Domain\Repository;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
 
 /**
  * A Frontend User repository
  */
 class FrontendUserRepository extends Repository {
 
-    public function findAllByPidAndGroups(string $userPidList, string $groupUidList): QueryResultInterface
+    public function initializeObject()
+    {
+        /** @var QuerySettingsInterface $querySettings */
+        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
+        $querySettings->setRespectStoragePage(false);
+        $this->setDefaultQuerySettings($querySettings);
+    }
+
+    /**
+     * @throws InvalidQueryException
+     */
+    public function findAllByPidAndGroups(string $userPidList, string $groupUidList): array
     {
        /*
         $queryStatement = trim("
@@ -35,22 +51,27 @@ class FrontendUserRepository extends Repository {
        */
 
         $query = $this->createQuery();
+
         if ($groupUidList == '')
         {
             return $query
                 ->matching(
-                    $query->in('pid', $userPidList),
+                    $query->in('pid', explode(',',$userPidList)),
                 )
-                ->execute();
+                ->setOrderings(['company'=> QueryInterface::ORDER_ASCENDING])
+                ->execute()
+                ->toArray();
         } else {
             return $query
                 ->matching(
                     $query->logicalAnd(
-                        $query->in('pid', $userPidList),
-                        $query->in('usergroup', $groupUidList)
+                        $query->in('pid', explode(',',$userPidList)),
+                        $query->in('usergroup', explode(',',$groupUidList))
                     )
                 )
-                ->execute();
+                ->setOrderings(['company'=> QueryInterface::ORDER_ASCENDING])
+                ->execute()
+                ->toArray();
         }
     }
 

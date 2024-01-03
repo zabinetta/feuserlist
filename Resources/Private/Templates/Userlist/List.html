@@ -1,59 +1,130 @@
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
-      xmlns:v="http://typo3.org/ns/FluidTYPO3/Vhs/ViewHelpers"
-      xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
-      xmlns:sc="SebastianChristoph\ScFeuserlist\ViewHelpers" data-namespace-typo3-fluid="true">
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+{namespace sc=Taketool\Feuserlist\ViewHelpers}
 
-<f:layout name="Default" />
+<f:layout name="Default"/>
 
-<f:debug title="users">{users}</f:debug>
-<f:debug title="img.0.url">{img.0.url}</f:debug>
-<f:debug title="users">{debug}</f:debug>
-<f:debug title="query">{query}</f:debug>
+
+page.includeJSFooterlibs.dataTables = //cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js
+page.includeJSFooterlibs.dataTables.external = 1
 
 <f:section name="HeaderAssets">
-    <link rel="stylesheet" type="text/css" href="{f:uri.resource(path: 'Css/styles.css')}"/>
+  <f:asset.css identifier="fontawesome" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <f:asset.css identifier="dataTables" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css" />
+  <f:asset.css identifier="feuserlist" href="EXT:feuserlist/Resources/Public/Css/styles.css" />
+</f:section>
+
+<f:section name="FooterAssets">
+  <f:asset.script identifier="dataTablesJs" src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" />
+  <script type="text/javascript">
+      ;(function($, root, window, document) {
+          $(function() { // Equal to $(document).ready()
+
+              $('.scGroup').click(function(){
+                  $('input').val(this.innerText).focus().keyup();
+              });
+
+              $('#vcards').DataTable({
+                  "pageLength": 5,
+                  "lengthMenu": [ 5, 10, 25, 50, "All" ],
+                  "language": {
+                      "lengthMenu": "Zeige _MENU_ Einträge",
+                      "search": "Suche",
+                      "info": "Zeige _START_ bis _END_ von _TOTAL_",
+                      "infoEmpty": "Zeige 0 bis 0 von 0",
+                      "infoFiltered": "(gefiltert von _MAX_ Einträgen insgesamt)",
+                      "entries": "Einträge",
+                      "zeroRecords": "keine Einträge gefunden",
+                      "paginate": {
+                          "first":      "Anfang",
+                          "last":       "Ende",
+                          "next":       "Weiter",
+                          "previous":   "Zurück"
+                      }
+                  }
+              });
+          });
+      })(jQuery, this, window, document);
+  </script>
 </f:section>
 
 <f:section name="main">
-
-    <div class="scBox"><f:comment>
+  <div class="scBox">
+    <f:comment>
       <div class="scGroups">
-          <f:for each="{allgroups}" as="group" iteration="i"><span class="scGroup">{group}</span>
-          </f:for>
-      </div></f:comment>
-      <div class="scUserlist">
-          <table id="vcards" class="display" style="width:100%">
-              <thead class="hidden"><tr><td>vcards</td></tr></thead>
-              <tbody><f:for each="{users}" as="user" iteration="i">
-              <tr><td>
-              <div class="vcard">
-                  <div class="vcLeft">
+        <f:for as="group" each="{allgroups}" iteration="i"><span class="scGroup">{group}</span>
+        </f:for>
+      </div>
+    </f:comment>
+    <div class="scUserlist">
+      <table class="display" id="vcards" style="width:100%">
+        <thead class="hidden">
+            <tr>
+              <td>vcards</td>
+            </tr>
+        </thead>
+        <tbody>
+            <f:for each="{users}"  as="user" iteration="i">
+              <tr>
+                <td>
+                  <f:spaceless>
+                  <div class="vcard">
+                    <div class="vcLeft">
                       <v:resource.record.fal as="img" field="image" table="fe_users" uid="{user.uid}">
-                          <figure class="box-image">
+                        <f:if condition="{img}">
+                          <f:then>
+                            <figure class="box-image">
                               <img src="{img.0.url}"/>
-                          </figure>
+                            </figure>
+                          </f:then>
+                          <f:else>
+                            <figure class="box-image no-image">
+                              <f:image src="EXT:feuserlist/Resources/Public/Images/placeholder.svg" alt="kein Logo verfügbar" />
+                            </figure>
+                          </f:else>
+                        </f:if>
                       </v:resource.record.fal>
 
-                  </div>
-                  <div class="vcRight">
-                      <div class="vcCompany"><h4><i class="fa fa-home"></i>{user.company}</h4></div>
-                          <div class="vcAddress"><i class="fa fa-address-card"></i>{user.address}</div>
-                          <div class="vcZipcity"><i class="fa"></i>{user.zip} {user.city}</div>
-                          <f:if condition="{user.last_name}"><div class="vcName"><i class="fa fa-user"></i>{user.first_name} {user.last_name}</div></f:if>
-                          <f:if condition="{user.telephone}"><div class="vcTelephone"><i class="fa fa-phone"></i>{user.telephone}</div></f:if>
-                          <f:if condition="{user.email}"><div class="vcEmail"><i class="fa fa-envelope"></i><f:link.email email="{user.email}">{user.email}</f:link.email></div></f:if>
-                          <f:if condition="{user.www}"><div class="vcWww"><i class="fa fa-laptop"></i><f:link.external uri="{user.www}" target="_blank">{user.www}</f:link.external></div></f:if>
-                          <f:if condition="{user.country}"><div class="vcMap"><i class="fa fa-map"></i><f:link.external uri="{user.country}" target="_blank">GoogleMaps</f:link.external></div></f:if>
-                          <div class="vcGroup"><sc:usergroup value="{user.usergroup}" allgroups="{allgroups}" /></div>
+                    </div>
+                    <div class="vcRight">
+                      <div class="vcCompany"><h4><i class="fa fa-home"></i>{user.company}<f:if condition="{showUserStatus}"><span class="dot{f:if(condition: 'userStatus[user.uid]', then: ' green')}"></span></f:if></h4>
                       </div>
+                      <div class="vcAddress"><i class="fa fa-address-card"></i>{user.address}</div>
+                      <div class="vcZipcity"><i class="fa"></i>{user.zip} {user.city}</div>
+                      <f:if condition="{user.last_name}">
+                        <div class="vcName"><i class="fa fa-user"></i>{user.first_name} {user.last_name}</div>
+                      </f:if>
+                      <f:if condition="{user.telephone}">
+                        <div class="vcTelephone"><i class="fa fa-phone"></i>{user.telephone}</div>
+                      </f:if>
+                      <f:if condition="{user.email}">
+                        <div class="vcEmail"><i class="fa fa-envelope"></i>
+                          <f:link.email email="{user.email}">{user.email}</f:link.email>
+                        </div>
+                      </f:if>
+                      <f:if condition="{user.www}">
+                        <div class="vcWww"><i class="fa fa-laptop"></i>
+                          <f:link.external target="_blank" uri="{user.www}">{user.www}</f:link.external>
+                        </div>
+                      </f:if>
+                      <f:if condition="{user.country}">
+                        <div class="vcMap"><i class="fa fa-map"></i>
+                          <f:link.external target="_blank" uri="{user.country}">GoogleMaps</f:link.external>
+                        </div>
+                      </f:if>
+                      <f:if condition="{user.usergroup}">
+                        <div class="vcGroup">
+                          <sc:usergroup allgroups="{allgroups}" groups="{user.usergroup}"/>
+                        </div>
+                      </f:if>
+                    </div>
                   </div>
-              </div>
-              <hr class="clear">
-              </td></tr>
-          </f:for></tbody>
-          </table>
-      </div>
-    </div>
+                </div>
+                <hr class="clear">
+                </f:spaceless>
+                </td></tr>
+            </f:for>
+        </tbody>
+    </table>
+  </div>
+</div>
 </f:section>
-
-</html>

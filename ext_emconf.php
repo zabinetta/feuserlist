@@ -1,7 +1,7 @@
 <?php
 
 /***************************************************************
- * Extension Manager/Repository config file for ext "sc_feuserlist".
+ * Extension Manager/Repository config file for ext "feuserlist".
  *
  * Auto generated 08-09-2020 07:32
  *
@@ -11,22 +11,22 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array (
-  'title' => 'SC FrontendUserlist',
-  'description' => 'Creates a userlist of frontendusers in the frontend with online status',
+  'title' => 'Frontend Userlist',
+  'description' => 'Creates a list of frontendusers in the frontend with online status',
   'category' => 'plugin',
-  'author' => 'Sebastian Christoph',
-  'author_email' => 'admin@sebastian-christoph.de',
+  'author' => 'Martin Keller',
+  'author_email' => 'martin.keller@taketool.de',
   'state' => 'stable',
   'uploadfolder' => false,
   'createDirs' => '',
   'clearCacheOnLoad' => 0,
-  'version' => '3.0.0',
+  'version' => '11.0.0',
   'constraints' => 
   array (
     'depends' => 
     array (
       'typo3' => '10.4.1-11.5.99',
-        'vhs' => '6.0.0-7.9.99',
+        'vhs' => '6.0.0-6.9.99',
     ),
     'conflicts' => 
     array (

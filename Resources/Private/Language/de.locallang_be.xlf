@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
 	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2019-06-20T12:48:01Z"
-		  product-name="sc_feuserlist">
+		  product-name="feuserlist">
 		<header/>
 		<body>
 			<trans-unit id="plugin.userstatus">

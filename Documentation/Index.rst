@@ -49,11 +49,11 @@ Extension Name
    It is maintained as part of this third party extension.
 
    If you find an error or something is missing, please:
-   `Report a Problem <https://github.com/sxbxstxxn/sc_feuserlist/issues/new>`__
+   `Report a Problem <https://github.com/sxbxstxxn/feuserlist/issues/new>`__
 
 **Extension Manual**
 
-   This documentation is for the TYPO3 extension sc_feuserlist.
+   This documentation is for the TYPO3 extension feuserlist.
 
 
 

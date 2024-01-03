@@ -1,15 +1,15 @@
 <?php
-namespace SebastianChristoph\ScFeuserlist\Controller;
+namespace Taketool\Feuserlist\Controller;
 
-use SebastianChristoph\Domain\Repository\FrontendUserRepository;
-use SebastianChristoph\Domain\Repository\FrontendUserGroupRepository;
+use Taketool\Feuserlist\Domain\Repository\FrontendUserRepository;
+use Taketool\Feuserlist\Domain\Repository\FrontendUserGroupRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 
 /**
  * Class UserlistController
  *
- * * @package SebastianChristoph\ScFeuserlist\Controller
+ * * @package Taketool\Feuserlist\Controller
  */
 class UserlistController extends ActionController
 {
@@ -26,7 +26,7 @@ class UserlistController extends ActionController
 
     public function __construct(
         FrontendUserRepository $frontendUserRepository,
-        FrontendUserGroupRepository $frontendUserGroupRepository,
+        FrontendUserGroupRepository $frontendUserGroupRepository
     )
     {
         $this->frontendUserRepository = $frontendUserRepository;
@@ -37,6 +37,7 @@ class UserlistController extends ActionController
      * list action
      *
      * @return void
+     * @throws InvalidQueryException
      */
     public function listAction()
     {
@@ -54,40 +55,34 @@ class UserlistController extends ActionController
             $this->settings['usergroups']
         );
 
-        /*
-        DebugUtility::debug([
-            '$pluginUsergroups' => $this->settings['usergroups'],
-            '$pluginUserPIDs' => $this->settings['userPIDs'],
-            '$pluginUserStatus' => $pluginUserStatus,
-            '$queryStatement' => $queryStatement,
-            '$allUsers' => $allUsers,
-        ], __line__.':listAction()');
-        */
-
         $time = \time();
+        $userOnlineStatus = [];
         foreach ($allUsers as $user) {
-            if ((($time - $user['is_online']) < 600) && ($user['is_online'] > 0)) {
-                $user['onlinestatus'] = 'online';
-            }
-            else {
-                $user['onlinestatus'] = 'offline';
-            }
-            $allUsersNew[] = $user;
-            //$userDbgData[] = $user['uid'].':'.$user['username'].' s:'.$user['starttime'].' e:'.$user['endtime'];
+            $userOnlineStatus[$user->getUid()] = (($time - $user->getIsOnline()) < 600) && ($user->getIsOnline() > 0);
         }
 
         // 'SELECT uid,title FROM fe_groups WHERE hidden=0 AND deleted=0 ORDER BY title ASC';
-        $allGroups = $this->frontendUserGroupRepository->findAll();
-        DebugUtility::debug($allGroups);
+        $allGroups = $this->frontendUserGroupRepository->findAllSortByTitle($this->settings['userPIDs']);
 
+        $allUsergroups = [];
         foreach ($allGroups as $g)
         {
-            $allUsergroups[$g['uid']] = $g['title'];
+            $allUsergroups[$g->getUid()] = $g->getTitle();
         }
 
+        /*
+        \nn\t3::debug([
+            '$pluginUsergroups' => explode(',', $this->settings['usergroups']),
+            '$pluginUserPIDs' => explode(',', $this->settings['userPIDs']),
+            '$allUsers' => $allUsers,
+            '$allGroups' => $allGroups,
+        ], __line__.':listAction()');
+        */
+
         $this->view->assignMultiple([
-            'users' => $allUsersNew,
+            'users' => $allUsers,
             'showUserStatus' => $this->settings['userStatus'],
+            'userStatus' => $userOnlineStatus,
             'allgroups' => $allUsergroups,
         ]);
     }
