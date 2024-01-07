@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array (
   'title' => 'Frontend Userlist',
-  'description' => 'Creates a list of frontendusers in the frontend with online status',
+  'description' => 'Creates a list of frontendusers and groups in the frontend. Fork from sc_feuserlist by Sebastion Christoph.",',
   'category' => 'plugin',
   'author' => 'Martin Keller',
   'author_email' => 'martin.keller@taketool.de',
