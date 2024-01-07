@@ -24,6 +24,7 @@
                             <config>
                                 <type>select</type>
                                 <renderType>selectMultipleSideBySide</renderType>
+                                <itemsProcFunc>Taketool\Feuserlist\ItemsProcFunc\FilterItemsProcFunc->filterFeGroups</itemsProcFunc>
                                 <items type="array">
                                     <numIndex index="0" type="array">
                                     </numIndex>
