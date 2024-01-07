@@ -22,3 +22,13 @@ plugin.tx_feuserlist {
         #callDefaultActionIfActionCantBeResolved = 1
     }
 }
+
+plugin.fe_user.persistance.storagePid = {$plugin.tx_feuserlist.persistence.storagePid}
+plugin.fe_usergroup.persistance.storagePid = {$plugin.tx_feuserlist.persistence.storagePid}
+
+# these classes are only used in auto-generated templates
+plugin.tx_feuserlist._CSS_DEFAULT_STYLE (
+    .userlistuser {
+        background-color:#ffffff;
+    }
+)
