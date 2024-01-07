@@ -4,12 +4,12 @@
     "description": "Creates a list of frontendusers in the frontend with online status",
     "authors": [
         {
-            "name": "Sebastian Christoph",
+            "name": "Martin Keller",
+            "email": "martin.keller@taketool.de",
             "role": "Developer"
         },
         {
-            "name": "Martin Keller",
-            "email": "martin.keller@taketool.de",
+            "name": "Sebastian Christoph",
             "role": "Developer"
         }
     ],
