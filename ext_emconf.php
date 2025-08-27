@@ -10,7 +10,7 @@
  * writing. "version" and "dependencies" must not be touched!
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array (
+$EM_CONF[$_EXTKEY] = [
   'title' => 'Frontend Userlist',
   'description' => 'Creates a list of frontendusers and groups in the frontend. Fork from sc_feuserlist by Sebastion Christoph.",',
   'category' => 'plugin',
@@ -20,22 +20,16 @@ $EM_CONF[$_EXTKEY] = array (
   'uploadfolder' => false,
   'createDirs' => '',
   'clearCacheOnLoad' => 0,
-  'version' => '11.0.0',
-  'constraints' => 
-  array (
-    'depends' => 
-    array (
-      'typo3' => '10.4.1-11.5.99',
-        'vhs' => '6.0.0-7.9.99',
-    ),
-    'conflicts' => 
-    array (
-    ),
-    'suggests' => 
-    array (
-    ),
-  ),
+  'version' => '12.0.0',
+  'constraints' => [
+    'depends' => [
+      'typo3' => '12.0.0-12.9.99',
+        'vhs' => '7.0.0-7.9.99',
+    ],
+    'conflicts' => [],
+    'suggests' => [],
+  ],
   'clearcacheonload' => false,
   'author_company' => NULL,
-);
+];
 

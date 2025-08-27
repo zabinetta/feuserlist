@@ -1,10 +1,12 @@
 <?php
 namespace Taketool\Feuserlist\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use Taketool\Feuserlist\Domain\Repository\FrontendUserRepository;
 use Taketool\Feuserlist\Domain\Repository\FrontendUserGroupRepository;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
+
 
 /**
  * Class UserlistController
@@ -39,17 +41,8 @@ class UserlistController extends ActionController
      * @return void
      * @throws InvalidQueryException
      */
-    public function listAction()
+    public function listAction(): ResponseInterface
     {
-    /*
-        SELECT * FROM fe_users \n
-            WHERE pid IN ($pluginUserPIDs)\n
-            $groupWhere
-            AND disable = 0 \n
-            AND deleted = 0 \n
-            AND (`starttime` = 0 OR `starttime` <= $now)
-            AND (`endtime` = 0 OR `endtime` > $now)");
-    */
         $allUsers = $this->frontendUserRepository->findAllByPidAndGroups(
             $this->settings['userPIDs'],
             $this->settings['usergroups']
@@ -61,7 +54,6 @@ class UserlistController extends ActionController
             $userOnlineStatus[$user->getUid()] = (($time - $user->getIsOnline()) < 600) && ($user->getIsOnline() > 0);
         }
 
-        // 'SELECT uid,title FROM fe_groups WHERE hidden=0 AND deleted=0 ORDER BY title ASC';
         $allGroups = $this->frontendUserGroupRepository->findAllSortByTitle($this->settings['userPIDs']);
 
         $allUsergroups = [];
@@ -70,14 +62,6 @@ class UserlistController extends ActionController
             $allUsergroups[$g->getUid()] = $g->getTitle();
         }
 
-        /*
-        \nn\t3::debug([
-            '$pluginUsergroups' => explode(',', $this->settings['usergroups']),
-            '$pluginUserPIDs' => explode(',', $this->settings['userPIDs']),
-            '$allUsers' => $allUsers,
-            '$allGroups' => $allGroups,
-        ], __line__.':listAction()');
-        */
 
         $this->view->assignMultiple([
             'users' => $allUsers,
@@ -85,5 +69,12 @@ class UserlistController extends ActionController
             'userStatus' => $userOnlineStatus,
             'allgroups' => $allUsergroups,
         ]);
+
+       return $this->responseFactory->createResponse()->withAddedHeader(
+            'Content-Type', 'text/html; charset=utf-8'
+            )->withBody(
+            $this->streamFactory->createStream($this->view->render()
+            )
+        );
     }
 }
